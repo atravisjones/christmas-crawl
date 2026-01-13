@@ -165,12 +165,15 @@ body {
     font-size: 80px;
     font-weight: 700;
     padding: 40px 20px;
-    border-radius: var(--border-radius);
+    border-radius: 0;
     margin-bottom: 16px;
     box-shadow: var(--shadow-large);
     font-family: 'Courier New', monospace;
     color: var(--dark-bg);
     letter-spacing: 4px;
+    position: sticky;
+    top: 66px;
+    z-index: 90;
 }
 
 .timer-display.warning {
@@ -200,8 +203,11 @@ body {
     color: var(--text-dark);
     padding: 12px;
     background: white;
-    border-radius: var(--border-radius);
+    border-radius: 0;
     box-shadow: var(--shadow);
+    position: sticky;
+    top: 226px;
+    z-index: 90;
 }
 
 /* Timer Controls */
