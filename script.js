@@ -114,6 +114,9 @@ class BlindFoldWalkApp {
         this.isRunning = true;
         this.isPaused = false;
 
+        // Update team display
+        document.getElementById('active-team-display').textContent = selectedTeam;
+
         // Update button states
         document.getElementById('start-btn').disabled = true;
         document.getElementById('pause-btn').disabled = false;
@@ -182,6 +185,7 @@ class BlindFoldWalkApp {
         this.updateTimerDisplay();
         this.updateCounters();
         document.getElementById('timer-status').textContent = 'Ready to Start';
+        document.getElementById('active-team-display').textContent = 'No Team Selected';
         document.getElementById('player1-finish-time').textContent = '';
         document.getElementById('player2-finish-time').textContent = '';
 
