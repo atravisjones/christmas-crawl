@@ -670,7 +670,19 @@ class BlindFoldWalkApp {
 
     loadTeams() {
         const stored = localStorage.getItem('blindfoldWalkTeams');
-        return stored ? JSON.parse(stored) : [];
+        if (stored) {
+            return JSON.parse(stored);
+        }
+
+        // Initialize with 12 default teams
+        const defaultTeams = [];
+        for (let i = 1; i <= 12; i++) {
+            defaultTeams.push(`Team ${i}`);
+        }
+
+        // Save default teams to localStorage
+        localStorage.setItem('blindfoldWalkTeams', JSON.stringify(defaultTeams));
+        return defaultTeams;
     }
 
     saveResults() {
