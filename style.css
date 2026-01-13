@@ -336,10 +336,13 @@ body {
     border-radius: var(--border-radius);
     text-align: center;
     box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .counter-card h3 {
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     color: var(--dark-bg);
     font-size: 20px;
 }
@@ -348,8 +351,18 @@ body {
     font-size: 64px;
     font-weight: 700;
     color: var(--warning-color);
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     font-family: 'Courier New', monospace;
+}
+
+.player-finish-time {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--success-color);
+    min-height: 24px;
+    padding: 8px;
+    background: rgba(46, 204, 113, 0.1);
+    border-radius: 8px;
 }
 
 /* Penalty Summary */

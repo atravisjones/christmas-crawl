@@ -15,6 +15,10 @@ class BlindFoldWalkApp {
         this.player1Hits = 0;
         this.player2Hits = 0;
 
+        // Player finish times
+        this.player1FinishTime = null;
+        this.player2FinishTime = null;
+
         // Current team
         this.currentTeam = null;
 
@@ -115,6 +119,8 @@ class BlindFoldWalkApp {
         document.getElementById('pause-btn').disabled = false;
         document.getElementById('finish-btn').disabled = false;
         document.getElementById('current-team-select').disabled = true;
+        document.getElementById('player1-finish-btn').disabled = false;
+        document.getElementById('player2-finish-btn').disabled = false;
 
         // Update status
         document.getElementById('timer-status').textContent = 'Running...';
@@ -159,6 +165,8 @@ class BlindFoldWalkApp {
         this.elapsedTime = 0;
         this.player1Hits = 0;
         this.player2Hits = 0;
+        this.player1FinishTime = null;
+        this.player2FinishTime = null;
         this.currentTeam = null;
 
         // Update button states
@@ -167,11 +175,15 @@ class BlindFoldWalkApp {
         document.getElementById('pause-btn').disabled = true;
         document.getElementById('finish-btn').disabled = true;
         document.getElementById('current-team-select').disabled = false;
+        document.getElementById('player1-finish-btn').disabled = true;
+        document.getElementById('player2-finish-btn').disabled = true;
 
         // Update displays
         this.updateTimerDisplay();
         this.updateCounters();
         document.getElementById('timer-status').textContent = 'Ready to Start';
+        document.getElementById('player1-finish-time').textContent = '';
+        document.getElementById('player2-finish-time').textContent = '';
 
         // Hide alert overlay
         document.getElementById('alert-overlay').classList.add('hidden');
@@ -282,11 +294,52 @@ class BlindFoldWalkApp {
 
     // Counters
     initCounters() {
-        const player1Btn = document.getElementById('player1-btn');
-        const player2Btn = document.getElementById('player2-btn');
+        const player1PenaltyBtn = document.getElementById('player1-penalty-btn');
+        const player2PenaltyBtn = document.getElementById('player2-penalty-btn');
+        const player1FinishBtn = document.getElementById('player1-finish-btn');
+        const player2FinishBtn = document.getElementById('player2-finish-btn');
 
-        player1Btn.addEventListener('click', () => this.addPenalty(1));
-        player2Btn.addEventListener('click', () => this.addPenalty(2));
+        player1PenaltyBtn.addEventListener('click', () => this.addPenalty(1));
+        player2PenaltyBtn.addEventListener('click', () => this.addPenalty(2));
+        player1FinishBtn.addEventListener('click', () => this.playerFinished(1));
+        player2FinishBtn.addEventListener('click', () => this.playerFinished(2));
+    }
+
+    playerFinished(player) {
+        if (!this.isRunning && !this.isPaused) {
+            alert('Please start the timer first!');
+            return;
+        }
+
+        const finishTime = this.elapsedTime;
+        const formattedTime = this.formatTime(finishTime);
+
+        if (player === 1) {
+            if (this.player1FinishTime !== null) {
+                if (!confirm('Player 1 finish time already recorded. Overwrite?')) {
+                    return;
+                }
+            }
+            this.player1FinishTime = finishTime;
+            document.getElementById('player1-finish-time').textContent = `Finished: ${formattedTime}`;
+            document.getElementById('player1-finish-btn').disabled = true;
+        } else {
+            if (this.player2FinishTime !== null) {
+                if (!confirm('Player 2 finish time already recorded. Overwrite?')) {
+                    return;
+                }
+            }
+            this.player2FinishTime = finishTime;
+            document.getElementById('player2-finish-time').textContent = `Finished: ${formattedTime}`;
+            document.getElementById('player2-finish-btn').disabled = true;
+        }
+
+        // Visual feedback
+        const btn = document.getElementById(`player${player}-finish-btn`);
+        btn.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            btn.style.transform = 'scale(1)';
+        }, 100);
     }
 
     addPenalty(player) {
