@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="description" content="Blindfold Walk Timer & Scorekeeper - Manage team challenge games">
+    <title>Blindfold Walk Timer</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main Container -->
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="nav-bar">
+            <button class="nav-btn active" data-view="timer">Timer</button>
+            <button class="nav-btn" data-view="teams">Teams</button>
+            <button class="nav-btn" data-view="leaderboard">Leaderboard</button>
+        </nav>
+
+        <!-- Timer View -->
+        <div id="timer-view" class="view active">
+            <div class="container">
+                <h1 class="app-title">Blindfold Walk</h1>
+
+                <!-- Current Team -->
+                <div class="current-team">
+                    <label for="current-team-select">Current Team:</label>
+                    <select id="current-team-select" class="team-select">
+                        <option value="">Select a team...</option>
+                    </select>
+                </div>
+
+                <!-- Timer Display -->
+                <div class="timer-display" id="timer-display">3:00</div>
+                <div class="timer-status" id="timer-status">Ready to Start</div>
+
+                <!-- Timer Controls -->
+                <div class="timer-controls">
+                    <button id="start-btn" class="btn btn-primary btn-large">START</button>
+                    <button id="pause-btn" class="btn btn-secondary btn-large" disabled>PAUSE</button>
+                    <button id="reset-btn" class="btn btn-danger">RESET</button>
+                </div>
+
+                <!-- Cone Counters -->
+                <div class="counters-section">
+                    <h2>Cone Hits</h2>
+                    <div class="counters-grid">
+                        <!-- Player 1 Counter -->
+                        <div class="counter-card">
+                            <h3>Player 1</h3>
+                            <div class="counter-display" id="player1-counter">0</div>
+                            <button class="btn btn-penalty btn-large" id="player1-btn">
+                                +5 SEC PENALTY
+                            </button>
+                        </div>
+
+                        <!-- Player 2 Counter -->
+                        <div class="counter-card">
+                            <h3>Player 2</h3>
+                            <div class="counter-display" id="player2-counter">0</div>
+                            <button class="btn btn-penalty btn-large" id="player2-btn">
+                                +5 SEC PENALTY
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Total Penalties -->
+                    <div class="penalty-summary">
+                        <div class="penalty-stat">
+                            <span class="label">Total Cone Hits:</span>
+                            <span class="value" id="total-cones">0</span>
+                        </div>
+                        <div class="penalty-stat">
+                            <span class="label">Total Penalty Time:</span>
+                            <span class="value" id="total-penalty">0 sec</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Finish Button -->
+                <div class="finish-section">
+                    <button id="finish-btn" class="btn btn-success btn-large" disabled>
+                        FINISH & RECORD TIME
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teams View -->
+        <div id="teams-view" class="view">
+            <div class="container">
+                <h1 class="app-title">Team Management</h1>
+
+                <!-- Add Team Form -->
+                <div class="add-team-section">
+                    <h2>Add New Team</h2>
+                    <div class="form-group">
+                        <input type="text" id="team-name-input" class="input-field" placeholder="Enter team name...">
+                        <button id="add-team-btn" class="btn btn-primary">Add Team</button>
+                    </div>
+                </div>
+
+                <!-- Teams List -->
+                <div class="teams-list-section">
+                    <h2>Teams List</h2>
+                    <div id="teams-list" class="teams-list">
+                        <p class="empty-message">No teams added yet. Add your first team above!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard View -->
+        <div id="leaderboard-view" class="view">
+            <div class="container">
+                <h1 class="app-title">Leaderboard</h1>
+
+                <!-- Leaderboard Actions -->
+                <div class="leaderboard-actions">
+                    <button id="export-btn" class="btn btn-primary">Export Results</button>
+                    <button id="clear-results-btn" class="btn btn-danger">Clear All Results</button>
+                </div>
+
+                <!-- Leaderboard Table -->
+                <div id="leaderboard-container" class="leaderboard-container">
+                    <div class="leaderboard-table">
+                        <div class="table-header">
+                            <div class="rank-col">Rank</div>
+                            <div class="team-col">Team</div>
+                            <div class="time-col">Raw Time</div>
+                            <div class="penalty-col">Penalties</div>
+                            <div class="final-col">Final Time</div>
+                        </div>
+                        <div id="leaderboard-body" class="table-body">
+                            <p class="empty-message">No results yet. Complete a game to see results here!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signature Modal -->
+        <div id="signature-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Sign Off - Team: <span id="signature-team-name"></span></h2>
+                    <button class="modal-close" id="close-signature-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="result-summary">
+                        <p><strong>Raw Time:</strong> <span id="result-raw-time"></span></p>
+                        <p><strong>Cone Hits:</strong> <span id="result-cone-hits"></span></p>
+                        <p><strong>Penalty Time:</strong> <span id="result-penalty-time"></span></p>
+                        <p class="final-time-display"><strong>Final Time:</strong> <span id="result-final-time"></span></p>
+                    </div>
+                    <div class="signature-section">
+                        <label>Signature:</label>
+                        <canvas id="signature-canvas" class="signature-canvas"></canvas>
+                        <div class="signature-controls">
+                            <button id="clear-signature-btn" class="btn btn-secondary">Clear Signature</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="cancel-signature-btn" class="btn btn-secondary">Cancel</button>
+                    <button id="save-signature-btn" class="btn btn-primary">Save Result</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert Overlay -->
+        <div id="alert-overlay" class="alert-overlay hidden">
+            <div class="alert-message">
+                <h2>TIME'S UP!</h2>
+                <p>3 minute limit reached</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
