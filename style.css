@@ -87,10 +87,12 @@ body {
 .view {
     display: none;
     animation: fadeIn 0.3s ease;
+    overflow: visible;
 }
 
 .view.active {
     display: block;
+    overflow: visible;
 }
 
 @keyframes fadeIn {
@@ -111,6 +113,8 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     box-sizing: border-box;
+    overflow: visible;
+    position: relative;
 }
 
 /* App Title */
@@ -160,12 +164,15 @@ body {
 
 /* Timer Display */
 .timer-header-container {
+    position: -webkit-sticky;
     position: sticky;
     top: 66px;
-    z-index: 90;
+    z-index: 999;
     background: white;
     box-shadow: var(--shadow-large);
     margin-bottom: 16px;
+    width: 100%;
+    max-width: 100%;
 }
 
 .active-team-display {
@@ -177,6 +184,7 @@ body {
     padding: 16px 20px;
     text-transform: uppercase;
     letter-spacing: 2px;
+    width: 100%;
 }
 
 .timer-display {
@@ -188,6 +196,7 @@ body {
     font-family: 'Courier New', monospace;
     color: var(--dark-bg);
     letter-spacing: 4px;
+    width: 100%;
 }
 
 .timer-display.warning {
@@ -219,9 +228,11 @@ body {
     background: white;
     border-radius: 0;
     box-shadow: var(--shadow);
+    position: -webkit-sticky;
     position: sticky;
     top: 282px;
-    z-index: 90;
+    z-index: 998;
+    width: 100%;
 }
 
 /* Timer Controls */
